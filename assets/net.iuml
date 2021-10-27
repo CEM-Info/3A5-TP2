@@ -1,0 +1,31 @@
+@startuml
+!include <office/Servers/server_generic>
+!include <office/Devices/router>
+!include <office/Devices/workstation>
+!include <office/Servers/domain_controller>
+
+
+nwdiag {
+    internet [description = "internet", shape = cloud];
+
+    network Réseau_Interne {
+        address = "172.31.0.0/16"
+        pfsense [address = "(dhcp)", description = "<$router>\npfsense"]
+        internet
+    }
+    network Réseau_Privé {
+        address = "192.168.35.x/24";
+        pfsense  [address = ".1" ];
+        dc01     [address = ".10", description = "<$domain_controller>\nDC01"];
+        server01 [address = ".25", description = "<$server_generic>\nSERV01"];
+        pc0001   [address = "(dhcp)", description = "<$workstation>\nPC0001"];
+    }
+    group {
+        color = "lightblue";
+        pfsense
+        dc01
+        server01
+        pc0001
+    }
+}
+@enduml
